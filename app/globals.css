@@ -1,0 +1,132 @@
+@import "tailwindcss";
+
+/* Modo oscuro controlado por la clase .dark en <html> */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-marca-50: #eef4ff;
+  --color-marca-100: #d9e5ff;
+  --color-marca-200: #bcd1ff;
+  --color-marca-300: #8eb4ff;
+  --color-marca-400: #598bff;
+  --color-marca-500: #3563f5;
+  --color-marca-600: #2145e0;
+  --color-marca-700: #1b35b5;
+  --color-marca-800: #1c308f;
+  --color-marca-900: #1c2e72;
+
+  --color-acento-400: #22d3ee;
+  --color-acento-500: #06b6d4;
+  --color-acento-600: #0891b2;
+
+  --font-sans: var(--fuente-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  color-scheme: light;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* deja aire bajo la barra fija al saltar con anclas */
+  scroll-padding-top: 5.5rem;
+}
+
+body {
+  background-color: #ffffff;
+  color: #0f172a;
+  -webkit-font-smoothing: antialiased;
+}
+
+html.dark body {
+  background-color: #060814;
+  color: #e2e8f0;
+}
+
+/* ── Animaciones de entrada ────────────────────────────────── */
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: translateY(1.25rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.reveal {
+  opacity: 0;
+}
+
+.reveal.visible {
+  animation: aparecer 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes flotar {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+.flotar {
+  animation: flotar 6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal {
+    opacity: 1;
+    animation: none !important;
+  }
+  .flotar {
+    animation: none;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ── Detalles ─────────────────────────────────────────────── */
+.texto-degradado {
+  background-image: linear-gradient(
+    100deg,
+    var(--color-marca-500),
+    var(--color-acento-500) 55%,
+    var(--color-marca-400)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+::selection {
+  background-color: var(--color-marca-500);
+  color: #fff;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+}
+html.dark ::-webkit-scrollbar-thumb {
+  background: #27334d;
+}
