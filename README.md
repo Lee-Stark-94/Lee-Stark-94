@@ -78,6 +78,9 @@ components/       # una sección por archivo (Hero, Habilidades, Historia…)
 data/profile.ts   # ← tu contenido
 ```
 
+Para el detalle técnico —flujo de datos, frontera servidor/cliente, sistema de
+diseño y decisiones de arquitectura— ver [`ARCHITECTURE.md`](ARCHITECTURE.md).
+
 ## Desplegar
 
 El proyecto es estático y se despliega sin configuración en
