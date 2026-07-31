@@ -87,16 +87,12 @@ Van en `public/` y sus rutas están en `data/presentacion.ts`:
 - `public/img/` — retrato, memes y fotos de las diapositivas
 - `public/posters/` — el collage de la diapositiva 07
 
-> **Faltan diez imágenes.** Las rutas ya están puestas; basta con copiar los
-> archivos con esos nombres exactos y aparecen solas. Mientras falten, los marcos
-> muestran un hueco tenue en vez de una imagen rota, y el collage sale con cinco
-> pósters en vez de diez. No se rompe nada.
->
-> | Archivo | Diapositiva |
-> | --- | --- |
-> | `public/img/cancun.png` | 04 Cancún (fondo) |
-> | `public/posters/p03.jpg` `p06` `p07` `p08` `p09` | 07 Entretenimiento |
-> | `public/img/pas-parques.webp` `pas-videojuegos` `pas-cine` `pas-politica` | 08 Pasiones |
+Para cambiar una imagen, sustituye el archivo. Si la nueva tiene otra extensión,
+actualiza también su ruta en `presentacion.ts`: los formatos no están
+normalizados y cada ruta apunta al archivo tal cual.
+
+Si una imagen falta, el marco muestra un hueco tenue en vez de un icono roto y el
+layout no se mueve.
 
 ### Cambiar los colores
 

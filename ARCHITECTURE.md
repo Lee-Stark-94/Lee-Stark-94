@@ -247,8 +247,9 @@ Son `<img>` planos, no `next/image`. El collage de la diapositiva 07 posiciona
 diez pósters en absoluto por porcentaje y rotación; `next/image` no aporta nada
 ahí y estorba. El resto son archivos pequeños ya optimizados.
 
-> **Estado actual:** faltan once imágenes en `public/`. Las rutas están cableadas
-> en `presentacion.ts`; al copiar los archivos aparecen solas. Ver §11.
+Las extensiones no están normalizadas (`.jpg`, `.jpeg`, `.png`, `.webp` conviven):
+cada ruta de `presentacion.ts` apunta al archivo tal cual está en `public/`. Al
+reemplazar una imagen por otra de distinto formato hay que actualizar su ruta.
 
 ---
 
@@ -341,20 +342,15 @@ el escalonado de 80 ms, los tres breakpoints por altura y el copy completo.
 
 ## 11. Limitaciones conocidas
 
-- **Faltan diez imágenes en `public/`.** El MCP de Claude Design trunca las
-  respuestas de `get_file` a 256 KiB, así que los archivos grandes no se pudieron
-  transferir. Hay que exportarlos a mano desde el proyecto de Design:
-
-  | Ruta esperada | Diapositiva |
-  | --- | --- |
-  | `public/img/cancun.png` | 04 (fondo) |
-  | `public/posters/p03,p06,p07,p08,p09.jpg` | 07 (collage) |
-  | `public/img/pas-parques,pas-videojuegos,pas-cine,pas-politica.webp` | 08 |
-
-  Los cinco pósters del collage son decorativos y su orden es indiferente: si no
-  se van a reponer, la alternativa limpia es recortar el array `posters` de
-  `presentacion.ts` a los cinco que existen y reajustar sus posiciones, para que
-  el collage se lea como intencionado en vez de incompleto.
+- **Imágenes sin optimizar.** Nadie ha pasado los archivos de `public/` por un
+  compresor. Los dos casos que más pesan frente a lo que ocupan en pantalla:
+  `pas-politica.png` son 2,2 MB para una tarjeta que se dibuja a ~300 px, y
+  `posters/p06.jpg` son 2000×3000 px para un póster de ~90 px en el collage.
+  Comprimir y reescalar quitaría la mayor parte del peso de la página.
+- **`cancun.png` se ve blando.** Son 612×408 px estirados a pantalla completa con
+  `object-fit: cover`; en un monitor de 1920 px eso es un aumento de 3×. Se nota
+  en las hojas de las palmeras. Al 58 % de opacidad y bajo el degradado pasa
+  bastante desapercibido, pero una versión de más resolución lo arreglaría.
 
   Mientras falten, los marcos muestran un hueco tenue y el collage sale con cinco
   pósters en vez de diez. No rompe el layout.

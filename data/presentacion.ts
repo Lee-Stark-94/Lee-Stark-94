@@ -130,7 +130,7 @@ export const entretenimiento = {
   /** Collage: posición absoluta en % dentro del contenedor. */
   posters: [
     { src: "/posters/p04.jpg", left: "0%", top: "15%", ancho: "45%", z: 3, giro: -3 },
-    { src: "/posters/p09.jpg", left: "46%", top: "1%", ancho: "31%", z: 5, giro: 2.5 },
+    { src: "/posters/p09.jpeg", left: "46%", top: "1%", ancho: "31%", z: 5, giro: 2.5 },
     { src: "/posters/p03.jpg", left: "78%", top: "12%", ancho: "22%", z: 2, giro: -2 },
     { src: "/posters/p05.jpg", left: "9%", top: "0%", ancho: "35%", z: 6, giro: 2 },
     { src: "/posters/p08.jpg", left: "43%", top: "27%", ancho: "27%", z: 4, giro: -4 },
@@ -152,22 +152,22 @@ export const pasiones = [
   {
     nombre: "Parques de atracciones",
     texto: "Filas larguísimas por noventa segundos de adrenalina. Vale la pena.",
-    imagen: "/img/pas-parques.webp",
+    imagen: "/img/pas-parques.jpeg",
   },
   {
     nombre: "Videojuegos",
     texto: "Los RPG y los juegos de acción son lo mío.",
-    imagen: "/img/pas-videojuegos.webp",
+    imagen: "/img/pas-videojuegos.jpeg",
   },
   {
     nombre: "Películas y series",
     texto: "Ciencia ficción seria, comedia y drama largo. Veo maratones como quien lee.",
-    imagen: "/img/pas-cine.webp",
+    imagen: "/img/pas-cine.jpeg",
   },
   {
     nombre: "Política y economía",
     texto: "Los temas que no caben en un tuit: entender por qué el mundo funciona así.",
-    imagen: "/img/pas-politica.webp",
+    imagen: "/img/pas-politica.png",
   },
 ];
 
