@@ -102,7 +102,7 @@ export const carrera = {
       texto: "Puntos de venta y software de seguridad: implementar, ajustar, sobrevivir.",
     },
   ],
-  imagen: "/img/meme-titulo.webp",
+  imagen: "/img/meme-titulo.jpg",
   pie: "Un usuario reportó un bug, listo usuario borrado...",
 };
 

@@ -341,16 +341,20 @@ el escalonado de 80 ms, los tres breakpoints por altura y el copy completo.
 
 ## 11. Limitaciones conocidas
 
-- **Faltan once imágenes en `public/`.** El MCP de Claude Design trunca las
+- **Faltan diez imágenes en `public/`.** El MCP de Claude Design trunca las
   respuestas de `get_file` a 256 KiB, así que los archivos grandes no se pudieron
   transferir. Hay que exportarlos a mano desde el proyecto de Design:
 
   | Ruta esperada | Diapositiva |
   | --- | --- |
   | `public/img/cancun.png` | 04 (fondo) |
-  | `public/img/meme-titulo.webp` | 05 |
   | `public/posters/p03,p06,p07,p08,p09.jpg` | 07 (collage) |
   | `public/img/pas-parques,pas-videojuegos,pas-cine,pas-politica.webp` | 08 |
+
+  Los cinco pósters del collage son decorativos y su orden es indiferente: si no
+  se van a reponer, la alternativa limpia es recortar el array `posters` de
+  `presentacion.ts` a los cinco que existen y reajustar sus posiciones, para que
+  el collage se lea como intencionado en vez de incompleto.
 
   Mientras falten, los marcos muestran un hueco tenue y el collage sale con cinco
   pósters en vez de diez. No rompe el layout.
