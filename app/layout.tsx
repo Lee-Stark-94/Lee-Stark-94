@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { profile } from "@/data/profile";
+import { perfil } from "@/data/presentacion";
 import "./globals.css";
 
 const inter = Inter({
@@ -10,40 +10,21 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: `${profile.nombre} — ${profile.rol}`,
-  description: profile.tagline,
+  title: `${perfil.nombre} — ${perfil.rol}`,
+  description: perfil.tagline,
   openGraph: {
-    title: `${profile.nombre} — ${profile.rol}`,
-    description: profile.tagline,
+    title: `${perfil.nombre} — ${perfil.rol}`,
+    description: perfil.tagline,
     type: "website",
-    locale: "es_ES",
+    locale: "es_MX",
   },
 };
-
-/**
- * Aplica el tema guardado antes del primer pintado para evitar el
- * parpadeo blanco cuando el usuario prefiere modo oscuro.
- */
-const scriptTema = `
-(function () {
-  try {
-    var guardado = localStorage.getItem('tema');
-    var oscuro = guardado
-      ? guardado === 'oscuro'
-      : window.matchMedia('(prefers-color-scheme: dark)').matches;
-    document.documentElement.classList.toggle('dark', oscuro);
-  } catch (e) {}
-})();
-`;
 
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="es" suppressHydrationWarning>
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: scriptTema }} />
-      </head>
+    <html lang="es" className="dark">
       <body className={`${inter.variable} font-sans`}>{children}</body>
     </html>
   );

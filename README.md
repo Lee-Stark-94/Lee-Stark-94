@@ -1,87 +1,153 @@
-# Portfolio personal
+# Presentación personal
 
-Página personal de una sola vista construida con **Next.js 16 (App Router)**, **React 19**,
-**TypeScript** y **Tailwind CSS 4**.
+Deck interactivo de diez diapositivas a pantalla completa, construido con
+**Next.js 16 (App Router)**, **React 19**, **TypeScript** y **Tailwind CSS 4**.
 
-Secciones: portada, sobre mí, habilidades, características, hobbies, mi historia,
-visión de futuro y contacto.
+Diapositivas: portada, origen, historial académico, Cancún, carrera, curiosidad,
+entretenimiento, pasiones, datos rancios y datos random.
 
 ## Empezar
 
 ```bash
 npm install
-npm run dev      # http://localhost:3000
 ```
-
-Otros comandos:
 
 ```bash
-npm run build    # build de producción
-npm run start    # sirve el build
+npm run dev
 ```
+
+Abre <http://localhost:3000>. Otros comandos:
+
+```bash
+npm run build
+```
+
+```bash
+npm run start
+```
+
+> `npm run lint` no funciona: llama a `next lint`, que Next 16 eliminó, y el
+> proyecto no tiene ESLint instalado. O se instala ESLint o se borra el script.
+
+## Cómo se navega
+
+| Acción | Teclas |
+| --- | --- |
+| Avanzar | `↓` `→` `PageDown` `Espacio` |
+| Retroceder | `↑` `←` `PageUp` |
+| Ir al principio / al final | `Home` / `End` |
+
+También funciona el scroll normal (cada diapositiva encaja sola) y los puntos de
+la derecha, que llevan directamente a cualquier diapositiva.
 
 ## Personalizar el contenido
 
-**Todo el contenido vive en un único archivo: [`data/profile.ts`](data/profile.ts).**
-No hace falta tocar los componentes: edita ahí tu nombre, redes, textos,
-habilidades, hobbies, línea de tiempo y metas, y la página se actualiza sola.
+**Todo el contenido vive en un único archivo:
+[`data/presentacion.ts`](data/presentacion.ts).** No hace falta tocar los
+componentes.
 
-Lo que puedes cambiar:
-
-| Bloque en `data/profile.ts` | Qué controla |
+| Bloque en `data/presentacion.ts` | Qué controla |
 | --- | --- |
-| `profile` | Nombre, iniciales, rol, tagline, ubicación, email, foto, CV, badge de disponibilidad |
-| `redes` | Enlaces a GitHub, LinkedIn, X… (añade o quita los que quieras) |
-| `sobreMi` | Párrafos de presentación y las tarjetas de datos rápidos |
-| `habilidades` | Categorías y skills con su nivel (`0`–`100`, se dibuja como barra) |
-| `caracteristicas` | Rasgos / forma de trabajar, con emoji, título y texto |
-| `hobbies` | Aficiones, con emoji, nombre y descripción |
-| `historia` | Línea de tiempo: año, título y texto de cada hito |
-| `vision` | Intro + metas a corto, mediano y largo plazo |
-| `secciones` | Los enlaces del menú de navegación |
+| `perfil` | Nombre, rol, tagline, entradilla y ruta del retrato |
+| `diapositivas` | El orden del deck, los nombres de los puntos y el efecto de cada diapositiva |
+| `origen` | Diapositiva 02: título, párrafo, imagen y pie |
+| `educacion` | Diapositiva 03: una tarjeta por etapa (periodo, texto, imagen) |
+| `cancun` | Diapositiva 04: los tres datos y el fondo |
+| `carrera` | Diapositiva 05: las áreas de trabajo, imagen y pie |
+| `entretenimiento` | Diapositiva 07: géneros, recomendación culposa y el collage de pósters |
+| `pasiones` | Diapositiva 08: una tarjeta por afición (nombre, texto, imagen) |
+| `datosRancios` | Diapositiva 09: los datos numerados |
+| `datosRandom` | Diapositiva 10: las tarjetas de cierre |
 
-### Poner tu foto
+Las listas se renderizan con `.map()`: puedes añadir o quitar elementos sin tocar
+código. Tres pasiones o siete funcionan igual.
 
-1. Copia tu imagen en la carpeta `public/` (ej. `public/foto.jpg`).
-2. En `data/profile.ts` cambia `foto: null` por `foto: "/foto.jpg"`.
+El texto de las diapositivas 01, 02, 04, 05 y 06 que va partido en varias líneas o
+lleva cursivas está en [`app/page.tsx`](app/page.tsx), junto a su maquetación,
+porque ahí el texto y el layout son inseparables.
 
-Si lo dejas en `null`, se muestra un avatar con tus iniciales.
+### Añadir o quitar una diapositiva
 
-### Poner tu CV
+1. Añade o quita sus datos en `data/presentacion.ts`.
+2. Actualiza el array `diapositivas`, **en la posición que le toque**.
+3. Añade o quita su `<Diapositiva>` en `app/page.tsx`, en esa misma posición.
 
-Igual que la foto: copia el PDF en `public/` y pon `cv: "/cv.pdf"`.
-Si es `null`, el botón de descarga no aparece.
+El `id` debe ser el mismo en los tres sitios.
+
+### Cambiar el efecto de una transición
+
+En el array `diapositivas`, cambia el campo `fx`. Valores válidos:
+
+`zoom` · `izq` · `der` · `flip` · `giro` · `desenfoque` · `caida`
+
+### Poner las imágenes
+
+Van en `public/` y sus rutas están en `data/presentacion.ts`:
+
+- `public/img/` — retrato, memes y fotos de las diapositivas
+- `public/posters/` — el collage de la diapositiva 07
+
+> **Faltan once imágenes.** Las rutas ya están puestas; basta con copiar los
+> archivos con esos nombres exactos y aparecen solas. Mientras falten, los marcos
+> muestran un hueco tenue en vez de una imagen rota, y el collage sale con cinco
+> pósters en vez de diez. No se rompe nada.
+>
+> | Archivo | Diapositiva |
+> | --- | --- |
+> | `public/img/cancun.png` | 04 Cancún (fondo) |
+> | `public/img/meme-titulo.webp` | 05 Carrera |
+> | `public/posters/p03.jpg` `p06` `p07` `p08` `p09` | 07 Entretenimiento |
+> | `public/img/pas-parques.webp` `pas-videojuegos` `pas-cine` `pas-politica` | 08 Pasiones |
 
 ### Cambiar los colores
 
-Los colores de la marca están definidos como variables CSS en
-[`app/globals.css`](app/globals.css), dentro del bloque `@theme`
-(`--color-marca-*` y `--color-acento-*`). Cambia esos valores y el degradado,
-los botones y los acentos se actualizan en toda la página.
+Están como variables CSS en [`app/globals.css`](app/globals.css), dentro del
+bloque `@theme`:
+
+```css
+--color-fondo:      #161826;   /* fondo general */
+--color-superficie: #232532;   /* tarjetas */
+--color-texto:      #e9e9ed;
+--color-acento:     #9184d9;   /* puntos, barra de progreso, etiquetas */
+--color-seccion:    #262a60;   /* fondo de las diapositivas 03, 05 y 08 */
+```
+
+Cambia esos valores y se actualiza todo el deck. La única excepción son los halos
+de fondo de cada diapositiva, que llevan sus `rgba()` en línea en `app/page.tsx`.
 
 ## Detalles incluidos
 
-- Modo claro/oscuro con toggle, guardado en `localStorage` y sin parpadeo al cargar.
-- Navegación fija con resaltado automático de la sección visible y menú móvil.
-- Animaciones de entrada al hacer scroll (`IntersectionObserver`).
+- Scroll-snap vertical: una diapositiva por pantalla, encajada por el navegador.
+- Siete efectos de transición distintos, en CSS puro. Cero dependencias de animación.
+- Entrada escalonada de los elementos de cada diapositiva.
+- Navegación por teclado y por puntos, con contador y barra de progreso.
+- Se adapta a pantallas bajas para que ninguna diapositiva necesite scroll interno.
 - Respeta `prefers-reduced-motion`.
-- Diseño responsive y metadatos para compartir en redes.
+- Metadatos y Open Graph generados desde `data/presentacion.ts`.
 
 ## Estructura
 
 ```
 app/
-  layout.tsx      # metadatos, fuente y script anti-parpadeo del tema
-  page.tsx        # ensambla las secciones
-  globals.css     # tema, colores y animaciones
-components/       # una sección por archivo (Hero, Habilidades, Historia…)
-data/profile.ts   # ← tu contenido
+  layout.tsx           # metadatos, fuente
+  page.tsx             # las diez diapositivas
+  globals.css          # tokens, escenario y transiciones
+components/
+  Deck.tsx             # navegación y diapositiva activa
+  Diapositiva.tsx      # envoltorio + Kicker + Marco
+data/presentacion.ts   # ← tu contenido
+public/img, public/posters
 ```
 
-Para el detalle técnico —flujo de datos, frontera servidor/cliente, sistema de
-diseño y decisiones de arquitectura— ver [`ARCHITECTURE.md`](ARCHITECTURE.md).
+Para el detalle técnico —flujo de datos, frontera servidor/cliente, cómo funcionan
+las transiciones y por qué se tomó cada decisión— ver
+[`ARCHITECTURE.md`](ARCHITECTURE.md).
 
 ## Desplegar
 
-El proyecto es estático y se despliega sin configuración en
-[Vercel](https://vercel.com/new): importa el repositorio y listo.
+Se despliega sin configuración en [Vercel](https://vercel.com/new): importa el
+repositorio y listo.
+
+Para un host de estáticos puro (GitHub Pages, Netlify drop, S3) hace falta añadir
+`output: "export"` en [`next.config.ts`](next.config.ts); sin eso, `next build`
+genera una salida pensada para el servidor de Next.

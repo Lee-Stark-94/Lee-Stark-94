@@ -1,70 +1,174 @@
 @import "tailwindcss";
 
-/* Modo oscuro controlado por la clase .dark en <html> */
-@custom-variant dark (&:where(.dark, .dark *));
-
+/* ── Nocturne: tokens del sistema de diseño ────────────────────
+   Copiados de _ds/nocturne-.../styles.css del proyecto de Design.
+   Cambiar la marca entera es cambiar estas variables.            */
 @theme {
-  --color-marca-50: #eef4ff;
-  --color-marca-100: #d9e5ff;
-  --color-marca-200: #bcd1ff;
-  --color-marca-300: #8eb4ff;
-  --color-marca-400: #598bff;
-  --color-marca-500: #3563f5;
-  --color-marca-600: #2145e0;
-  --color-marca-700: #1b35b5;
-  --color-marca-800: #1c308f;
-  --color-marca-900: #1c2e72;
+  --color-fondo: #161826;
+  --color-superficie: #232532;
+  --color-texto: #e9e9ed;
+  --color-acento: #9184d9;
 
-  --color-acento-400: #22d3ee;
-  --color-acento-500: #06b6d4;
-  --color-acento-600: #0891b2;
+  --color-acento-100: #f5f4ff;
+  --color-acento-200: #e7e5fe;
+  --color-acento-300: #d2cefd;
+  --color-acento-400: #b5abfc;
+  --color-acento-500: #968ae0;
+  --color-acento-600: #796cbf;
+  --color-acento-700: #5d5294;
+  --color-acento-800: #423a6a;
+  --color-acento-900: #2b2741;
 
-  --font-sans: var(--fuente-sans), ui-sans-serif, system-ui, sans-serif;
+  /* Fondo de las secciones divisorias: índigo saturado, solo para
+     rellenos a escala de diapositiva, nunca para interfaz. */
+  --color-seccion: #262a60;
+  --color-seccion-brillo: #353b80;
+
+  --radius-lg: 14px;
+
+  --font-sans: var(--fuente-sans), "Inter", system-ui, sans-serif;
 }
 
 :root {
-  color-scheme: light;
-}
-
-html.dark {
   color-scheme: dark;
+  --sombra-sm: 0 0 0 1px #3f424d;
+  --sombra-md: 0 0 0 1px #595d6c, 0 6px 18px rgb(0 0 0 / 0.55);
 }
 
-html {
-  scroll-behavior: smooth;
-  /* deja aire bajo la barra fija al saltar con anclas */
-  scroll-padding-top: 5.5rem;
-}
-
+html,
 body {
-  background-color: #ffffff;
-  color: #0f172a;
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: var(--color-fondo);
+  color: var(--color-texto);
   -webkit-font-smoothing: antialiased;
 }
 
-html.dark body {
-  background-color: #060814;
-  color: #e2e8f0;
+::selection {
+  background: color-mix(in srgb, var(--color-acento) 30%, transparent);
+}
+:focus-visible {
+  outline: 2px solid var(--color-acento);
+  outline-offset: 2px;
 }
 
-/* ── Animaciones de entrada ────────────────────────────────── */
-@keyframes aparecer {
-  from {
-    opacity: 0;
-    transform: translateY(1.25rem);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
+/* ── El escenario: scroll-snap vertical, una diapositiva por pantalla ── */
+#escenario {
+  height: 100dvh;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  scrollbar-width: none;
+}
+#escenario::-webkit-scrollbar {
+  display: none;
+}
+[data-slide] {
+  scroll-snap-align: start;
 }
 
-.reveal {
+/* ── Animación de entrada/salida ──────────────────────────────
+   El controlador marca cada diapositiva como active / ahead / behind
+   y el CSS hace el resto. Un solo mecanismo para toda la página.  */
+[data-anim] {
+  transition:
+    opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.85s cubic-bezier(0.19, 1, 0.22, 1),
+    filter 0.6s ease;
+  will-change: opacity, transform;
+}
+[data-state="active"] [data-anim] {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+[data-state="ahead"] [data-anim] {
   opacity: 0;
+  transform: translateY(70px) scale(0.97);
+}
+[data-state="behind"] [data-anim] {
+  opacity: 0;
+  transform: translateY(-70px) scale(0.97);
 }
 
-.reveal.visible {
-  animation: aparecer 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+/* Efecto por diapositiva (data-fx) */
+[data-fx="zoom"][data-state="ahead"] [data-anim] {
+  transform: scale(0.72);
+  filter: blur(6px);
+}
+[data-fx="zoom"][data-state="behind"] [data-anim] {
+  transform: scale(1.35);
+  filter: blur(6px);
+}
+[data-fx="izq"][data-state="ahead"] [data-anim] {
+  transform: translateX(-140px) rotate(-5deg);
+}
+[data-fx="izq"][data-state="behind"] [data-anim] {
+  transform: translateX(140px) rotate(5deg);
+}
+[data-fx="der"][data-state="ahead"] [data-anim] {
+  transform: translateX(140px) rotate(5deg);
+}
+[data-fx="der"][data-state="behind"] [data-anim] {
+  transform: translateX(-140px) rotate(-5deg);
+}
+[data-fx="flip"][data-state="ahead"] [data-anim] {
+  transform: perspective(1400px) rotateX(-52deg) translateY(90px);
+}
+[data-fx="flip"][data-state="behind"] [data-anim] {
+  transform: perspective(1400px) rotateX(52deg) translateY(-90px);
+}
+[data-fx="giro"][data-state="ahead"] [data-anim] {
+  transform: perspective(1400px) rotateY(-40deg) translateX(-90px) scale(0.9);
+}
+[data-fx="giro"][data-state="behind"] [data-anim] {
+  transform: perspective(1400px) rotateY(40deg) translateX(90px) scale(0.9);
+}
+[data-fx="desenfoque"][data-state="ahead"] [data-anim],
+[data-fx="desenfoque"][data-state="behind"] [data-anim] {
+  transform: scale(1.08);
+  filter: blur(20px);
+}
+[data-fx="caida"][data-state="ahead"] [data-anim] {
+  transform: translateY(-120px) rotate(-4deg);
+}
+[data-fx="caida"][data-state="behind"] [data-anim] {
+  transform: translateY(120px) rotate(4deg);
+}
+
+/* Escalonado: el índice de data-anim marca el retraso */
+[data-anim="1"] {
+  transition-delay: 0.08s;
+}
+[data-anim="2"] {
+  transition-delay: 0.16s;
+}
+[data-anim="3"] {
+  transition-delay: 0.24s;
+}
+[data-anim="4"] {
+  transition-delay: 0.32s;
+}
+[data-anim="5"] {
+  transition-delay: 0.4s;
+}
+[data-anim="6"] {
+  transition-delay: 0.48s;
+}
+
+[data-halo] {
+  transition:
+    transform 1.4s cubic-bezier(0.19, 1, 0.22, 1),
+    opacity 1s ease;
+}
+[data-state="active"] [data-halo] {
+  transform: scale(1);
+  opacity: 1;
+}
+[data-state="ahead"] [data-halo],
+[data-state="behind"] [data-halo] {
+  transform: scale(1.5);
+  opacity: 0;
 }
 
 @keyframes flotar {
@@ -73,60 +177,91 @@ html.dark body {
     transform: translateY(0);
   }
   50% {
-    transform: translateY(-12px);
+    transform: translateY(-16px);
   }
 }
-
+@keyframes latir {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 0.75;
+  }
+}
+@keyframes bajar {
+  0%,
+  100% {
+    transform: translate(-50%, 0);
+  }
+  50% {
+    transform: translate(-50%, 8px);
+  }
+}
 .flotar {
-  animation: flotar 6s ease-in-out infinite;
+  animation: flotar 8s ease-in-out infinite;
+}
+.latir {
+  animation: latir 7s ease-in-out infinite;
+}
+.bajar {
+  animation: bajar 2.4s ease-in-out infinite;
+}
+
+/* Marco de imagen: si el archivo falta, se ve un hueco tenue en vez
+   de un icono de imagen rota. */
+.marco {
+  background: color-mix(in srgb, var(--color-texto) 6%, transparent);
+}
+.marco img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ── Pantallas bajas: el deck cabe sin scroll interno ────────── */
+@media (max-height: 780px) {
+  [data-slide] {
+    padding-top: clamp(56px, 8vh, 96px);
+    padding-bottom: clamp(28px, 4vh, 56px);
+  }
+  [data-slide] h2 {
+    font-size: clamp(23px, 4.6vh, 42px);
+  }
+}
+@media (max-height: 660px) {
+  [data-slide] {
+    padding-top: clamp(52px, 7vh, 80px);
+    padding-bottom: 24px;
+  }
+  [data-slide] h2 {
+    font-size: clamp(21px, 4.2vh, 34px);
+  }
+  [data-slide] p {
+    line-height: 1.45;
+  }
+}
+@media (max-height: 580px) {
+  [data-slide] p {
+    font-size: 12.8px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
+  [data-anim],
+  [data-halo] {
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
   }
-  .reveal {
-    opacity: 1;
-    animation: none !important;
-  }
-  .flotar {
+  .flotar,
+  .latir,
+  .bajar {
     animation: none;
   }
-  *,
-  *::before,
-  *::after {
-    transition-duration: 0.01ms !important;
+  #escenario {
+    scroll-behavior: auto;
   }
-}
-
-/* ── Detalles ─────────────────────────────────────────────── */
-.texto-degradado {
-  background-image: linear-gradient(
-    100deg,
-    var(--color-marca-500),
-    var(--color-acento-500) 55%,
-    var(--color-marca-400)
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-::selection {
-  background-color: var(--color-marca-500);
-  color: #fff;
-}
-
-::-webkit-scrollbar {
-  width: 10px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 9999px;
-}
-html.dark ::-webkit-scrollbar-thumb {
-  background: #27334d;
 }
