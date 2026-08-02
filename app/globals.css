@@ -26,6 +26,11 @@
 
   --radius-lg: 14px;
 
+  /* Placa clara detrás de los logos del stack: los logotipos de marca son
+     oscuros y sobre el fondo nocturno no se leen. El mismo color va horneado
+     como fondo de los PNG en /public/tech, así que deben cambiar juntos. */
+  --color-placa-tech: #eceef5;
+
   --font-sans: var(--fuente-sans), "Inter", system-ui, sans-serif;
 }
 

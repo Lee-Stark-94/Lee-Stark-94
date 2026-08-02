@@ -253,6 +253,35 @@ export default function Home() {
               </figcaption>
             </figure>
           </div>
+
+          {/* Stack: placas claras para que los logos oscuros se lean */}
+          <div
+            data-anim="5"
+            className="mt-[clamp(14px,2.4vh,26px)] bg-[linear-gradient(to_right,rgba(233,233,237,.22),transparent)] bg-[length:100%_1px] bg-top bg-no-repeat pt-[clamp(12px,2vh,18px)]"
+          >
+            <p className="m-0 text-[11.5px] uppercase tracking-[0.14em] text-texto/60">
+              Con lo que trabajo
+            </p>
+            <ul
+              className="m-0 mt-3 grid list-none gap-[clamp(8px,1vw,14px)] p-0 [--placa:clamp(50px,6.4vh,72px)] [grid-template-columns:repeat(auto-fit,minmax(104px,1fr))]"
+            >
+              {carrera.tecnologias.map((t) => (
+                <li key={t.nombre} className="grid justify-items-center gap-1.5">
+                  <div className="grid h-[var(--placa)] w-full place-items-center rounded-[10px] bg-placa-tech px-3 shadow-[var(--sombra-sm)]">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={t.logo}
+                      alt={t.nombre}
+                      loading="lazy"
+                      className="max-w-[78%] object-contain"
+                      style={{ maxHeight: `calc(var(--placa) * ${t.escala / 100})` }}
+                    />
+                  </div>
+                  <span className="text-[11px] leading-none text-texto/60">{t.nombre}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </Diapositiva>
 

@@ -104,6 +104,19 @@ export const carrera = {
   ],
   imagen: "/img/meme-titulo.jpg",
   pie: "Un usuario reportó un bug, listo usuario borrado...",
+  /** Logos del stack. `escala` es el alto del logo dentro de su placa, en %:
+   *  los apaisados (los que traen el nombre) piden menos alto que los
+   *  cuadrados para que todos pesen parecido. Los PNG llevan el fondo del
+   *  mismo color que la placa (--placa-tech en globals.css). */
+  tecnologias: [
+    { nombre: "React", logo: "/tech/react.png", escala: 60 },
+    { nombre: "Django", logo: "/tech/django.png", escala: 46 },
+    { nombre: "FastAPI", logo: "/tech/fastapi.png", escala: 56 },
+    { nombre: "PostgreSQL", logo: "/tech/postgresql.png", escala: 66 },
+    { nombre: "Docker", logo: "/tech/docker.png", escala: 58 },
+    { nombre: "Firebase", logo: "/tech/firebase.png", escala: 40 },
+    { nombre: "Android Studio", logo: "/tech/android-studio.png", escala: 46 },
+  ],
 };
 
 // ── 07 Entretenimiento ─────────────────────────────────────────
